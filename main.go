@@ -4,18 +4,18 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	snet "net"
 	"net/http"
 	"os"
 
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/gorilla/mux"
 	"github.com/urfave/cli"
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2019_09_11.23_59_28.0.b5aeabd"
+const LomoWebVersion = "2019_11_21.22_05_46.0.ccc7897"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -36,24 +36,33 @@ func ListIPs() ([]snet.IP, error) {
 
 // LoadFile load html file
 func LoadFile(fileName string) (string, error) {
-	bytes, err := ioutil.ReadFile(fileName)
+	// find a rice.Box
+	templateBox, err := rice.FindBox("templates")
 	if err != nil {
+		fmt.Printf("error finding templates: %v\n", err)
 		return "", err
 	}
-	return string(bytes), nil
+	// get file contents as string
+	templateString, err := templateBox.String(fileName)
+	if err != nil {
+		fmt.Printf("error reading templates: %v\n", err)
+		return "", err
+	}
+
+	return templateString, nil
 }
 
 // Handlers
 
 // LoginPageHandler for GET
 func LoginPageHandler(response http.ResponseWriter, request *http.Request) {
-	var body, _ = LoadFile("templates/login.html")
-	fmt.Fprintf(response, body)
+	var body, _ = LoadFile("login.html")
+	io.WriteString(response, body)
 }
 
 // ImportPageHandler for GET
 func ImportPageHandler(response http.ResponseWriter, request *http.Request) {
-	var body, _ = LoadFile("templates/import.html")
+	var body, _ = LoadFile("import.html")
 	io.WriteString(response, body)
 }
 
@@ -134,7 +143,10 @@ func bootService(ctx *cli.Context) error {
 
 	// This will serve files under http://localhost:8000/static/<filename>
 	router.HandleFunc("/static/js/conf.js", ConfJsHandler)
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+
+	box := rice.MustFindBox("static")
+	staticFileServer := http.StripPrefix("/static/", http.FileServer(box.HTTPBox()))
+	router.PathPrefix("/static/").Handler(staticFileServer)
 	router.HandleFunc("/", LoginPageHandler)        // GET
 	router.HandleFunc("/import", ImportPageHandler) // GET
 
