@@ -313,7 +313,8 @@
             { type: file.type }
           );
         blob.name = file.name;
-        data.files[data.index] = blob;
+        // hack
+        //data.files[data.index] = blob;
         return data;
       },
 
