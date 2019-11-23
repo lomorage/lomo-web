@@ -8,7 +8,7 @@ echo $versionString
 
 versionOld=$(grep "const LomoWebVersion" main.go)
 echo "old verion: $versionOld"
-sed -i ".bak" -E "s/[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}\.[[:digit:]]{2}_[[:digit:]]{2}_[[:digit:]]{2}\.0\.[a-zA-Z0-9]{7}/$versionString/g" main.go
+sed -i.bak -E "s/[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}\.[[:digit:]]{2}_[[:digit:]]{2}_[[:digit:]]{2}\.0\.[a-zA-Z0-9]{7}/$versionString/g" main.go
 versionNew=$(grep "const LomoWebVersion" main.go)
 echo "new verion: $versionNew"
 

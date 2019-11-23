@@ -8,6 +8,8 @@ import (
 	snet "net"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/gorilla/mux"
@@ -15,7 +17,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2019_11_22.12_40_07.0.c9c7b53"
+const LomoWebVersion = "2019_11_23.00_01_37.0.1313231"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -39,13 +41,13 @@ func LoadFile(fileName string) (string, error) {
 	// find a rice.Box
 	templateBox, err := rice.FindBox("templates")
 	if err != nil {
-		fmt.Printf("error finding templates: %v\n", err)
+		log.Printf("error finding templates: %v\n", err)
 		return "", err
 	}
 	// get file contents as string
 	templateString, err := templateBox.String(fileName)
 	if err != nil {
-		fmt.Printf("error reading templates: %v\n", err)
+		log.Printf("error reading templates: %v\n", err)
 		return "", err
 	}
 
@@ -106,10 +108,16 @@ func main() {
 
 	app.Version = LomoWebVersion
 	app.Usage = "Lomorage web app"
-	app.Email = "fuji246@gmail.com"
+
+	app.Authors = []*cli.Author{
+		&cli.Author{
+			Name:  "Jeromy Fu",
+			Email: "fuji246@gmail.com",
+		},
+	}
 
 	app.Flags = []cli.Flag{
-		cli.StringFlag{
+		&cli.StringFlag{
 			Name:  "baseurl, b",
 			Usage: "Base url of lomo-backend",
 		},
@@ -128,9 +136,9 @@ func bootService(ctx *cli.Context) error {
 	if BaseURL == "" {
 		ipList, err := ListIPs()
 		if err != nil {
-			fmt.Printf("error while list ips: %v\n", err)
+			log.Printf("error while list ips: %v\n", err)
 		} else if len(ipList) > 0 {
-			fmt.Printf("ip[0]: %v\n", ipList[0])
+			log.Printf("ip[0]: %v\n", ipList[0])
 			BaseURL = fmt.Sprintf("http://%v:8000", ipList[0])
 		}
 	}
@@ -150,8 +158,25 @@ func bootService(ctx *cli.Context) error {
 	router.HandleFunc("/", LoginPageHandler)        // GET
 	router.HandleFunc("/import", ImportPageHandler) // GET
 
-	http.Handle("/", router)
-	http.ListenAndServe(":80", nil)
+	log.Println("Server started. Press Ctrl-C to stop server")
+
+	// Catch the Ctrl-C and SIGTERM from kill command
+	ch := make(chan os.Signal, 1)
+
+	signal.Notify(ch, os.Interrupt, os.Kill, syscall.SIGTERM)
+
+	go func() {
+		signalType := <-ch
+		signal.Stop(ch)
+		log.Println("Exit command received. Exiting...")
+
+		// this is a good place to flush everything to disk
+		// before terminating.
+		log.Println("Signal type : ", signalType)
+		os.Exit(0)
+	}()
+
+	log.Println(http.ListenAndServe(":80", router))
 
 	return nil
 }
