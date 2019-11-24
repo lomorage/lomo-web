@@ -19,6 +19,13 @@ if [ "$(uname)" == "Darwin" ]; then
     rice append --exec lomo-web
     zip -r lomoWebOSX.zip lomo-web
     shasum -a256 lomoWebOSX.zip
+elif [ "$(uname)" == "Linux" ]; then
+    go build -o lomo-web
+    zip -r lomoWebLinux.zip lomo-web
+    shasum -a256 lomoWebLinux.zip
+elif [ "$(uname)" == "WindowsNT" ]; then
+    go build -o lomo-web
+    zip -r lomoWebWin.zip lomo-web
 else
     go build -o lomo-web
 fi
