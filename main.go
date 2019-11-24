@@ -17,7 +17,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2019_11_23.00_01_37.0.1313231"
+const LomoWebVersion = "2019_11_24.00_04_41.0.5590f39"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -119,7 +119,13 @@ func main() {
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
 			Name:  "baseurl, b",
-			Usage: "Base url of lomo-backend",
+			Usage: "URL of Lomorage Service (lomod)",
+		},
+
+		&cli.UintFlag{
+			Name:  "port, p",
+			Usage: "lomo-web listen port",
+			Value: 80,
 		},
 	}
 
@@ -176,7 +182,7 @@ func bootService(ctx *cli.Context) error {
 		os.Exit(0)
 	}()
 
-	log.Println(http.ListenAndServe(":80", router))
+	log.Println(http.ListenAndServe(fmt.Sprintf(":%d", ctx.Int("port")), router))
 
 	return nil
 }
