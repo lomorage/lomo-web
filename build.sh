@@ -23,9 +23,10 @@ elif [ "$(uname)" == "Linux" ]; then
     go build -o lomo-web
     zip -r lomoWebLinux.zip lomo-web
     shasum -a256 lomoWebLinux.zip
-elif [ "$(uname)" == "WindowsNT" ]; then
+elif [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
     go build -o lomo-web
     zip -r lomoWebWin.zip lomo-web
+    certUtil -hashfile lomoWebWin.zip SHA256
 else
     go build -o lomo-web
 fi
