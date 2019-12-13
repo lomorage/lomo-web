@@ -17,6 +17,8 @@ If running lomo-web at the same device with Lomorage Service, you can skip `--ba
 
 Then you can open broswer and access "http://[ip-of-lomo-web]", the default port is 80 and you can change that by using "--port" parameter when running "lomo-web".
 
+Download the binary at https://github.com/lomorage/lomo-web/releases, now support MacOS and Raspberry Pi.
+
 [![Screen-Shot-2019-11-21-at-10-13-13-PM.png](https://i.postimg.cc/SNgbW2Kq/Screen-Shot-2019-11-21-at-10-13-13-PM.png)](https://postimg.cc/svGLz2S0)
 
 [![Screen-Shot-2019-11-21-at-10-16-21-PM.png](https://i.postimg.cc/B64FbyG4/Screen-Shot-2019-11-21-at-10-16-21-PM.png)](https://postimg.cc/gwtjBgJT)
