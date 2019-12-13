@@ -1057,23 +1057,32 @@
           
           var reader = new FileReader();
           var file = options.files[0]
+          var CHUNK_SIZE = 10*1024*1024;
+          var offset = 0;
+          var sha1 = CryptoJS.algo.SHA1.create();
           reader.onload = function (f) {
-            var file_result = this.result;
-            var file_wordArr = CryptoJS.lib.WordArray.create(file_result); 
-            var sha1_hash = CryptoJS.SHA1(file_wordArr);
-            var lastModified = file.lastModified || file.lastModifiedDate;
-            // var params = {
-            //   ext: file.name.split('.').pop().toLowerCase(),
-            //   createtime: new Date(lastModified).toISOString()
-            // }
-            // options.url = options.url + "/" + sha1_hash.toString() + "?" + $.param(params)
-            options.url = options.url + "/" + sha1_hash.toString();
-            options.url += "?" + "ext=" + file.name.split('.').pop().toLowerCase();
-            options.url += "&createtime=" +(new Date(lastModified)).toISOString();
-            
-            dfd.resolve()
+            var filedata = CryptoJS.lib.WordArray.create(this.result);
+            sha1.update(filedata);
+            offset += CHUNK_SIZE;
+            seek();
           }
-          reader.readAsArrayBuffer(file);
+
+          function seek() {
+            if (offset >= file.size) {
+              var sha1_hash = sha1.finalize();
+              options.url = options.url + "/" + sha1_hash.toString();
+              options.url += "?" + "ext=" + file.name.split('.').pop().toLowerCase();
+              var lastModified = file.lastModified || file.lastModifiedDate;
+              options.url += "&createtime=" +(new Date(lastModified)).toISOString();
+              dfd.resolve()
+              return
+            }
+            var slice = file.slice(offset, offset + CHUNK_SIZE);
+            reader.readAsArrayBuffer(slice);
+          }
+
+          seek();
+
           prom.abort = function() {
             aborted = [undefined, 'abort', 'abort'];
             if (!jqXHR) {
@@ -1085,7 +1094,7 @@
             return jqXHR.abort();
           };
           return that._enhancePromise(prom);
-        }
+      }
       this._beforeSend(e, options);
       if (
         this.options.sequentialUploads ||
