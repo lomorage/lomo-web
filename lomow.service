@@ -1,0 +1,12 @@
+[Unit]
+Description=Lomorage Web App Service
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/opt/lomorage/bin/lomo-web --port 8001
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
