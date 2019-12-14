@@ -17,7 +17,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2019_12_13.11_42_09.0.32542e4"
+const LomoWebVersion = "2019_12_13.14_59_31.0.896fa9a"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -118,12 +118,18 @@ func main() {
 
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
-			Name:  "baseurl, b",
-			Usage: "URL of Lomorage Service (lomod)",
+			Name:  "baseurl",
+			Usage: "URL of Lomorage Service (lomod), default will be http://[lomoweb-host-ip]:8000",
 		},
 
 		&cli.UintFlag{
-			Name:  "port, p",
+			Name:  "baseport",
+			Usage: "lomod listen port",
+			Value: 8000,
+		},
+
+		&cli.UintFlag{
+			Name:  "port",
 			Usage: "lomo-web listen port",
 			Value: 80,
 		},
@@ -145,13 +151,14 @@ func bootService(ctx *cli.Context) error {
 			log.Printf("error while list ips: %v\n", err)
 		} else if len(ipList) > 0 {
 			log.Printf("ip[0]: %v\n", ipList[0])
-			BaseURL = fmt.Sprintf("http://%v:8000", ipList[0])
+			BaseURL = fmt.Sprintf("http://%v:%v", ipList[0], ctx.String("baseport"))
 		}
 	}
 
 	if BaseURL == "" {
 		return errors.New("invalid baseurl")
 	}
+	log.Printf("Lomorage Service lomod url: %s", BaseURL)
 
 	var router = mux.NewRouter()
 

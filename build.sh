@@ -16,7 +16,6 @@ rice embed-go
 
 if [ "$(uname)" == "Darwin" ]; then
     CGO_CFLAGS=-mmacosx-version-min=10.10 CGO_LDFLAGS=-mmacosx-version-min=10.10 go build -o lomo-web
-    rice append --exec lomo-web
     zip -r lomoWebOSX.zip lomo-web
     shasum -a256 lomoWebOSX.zip
 elif [ "$(uname)" == "Linux" ]; then
