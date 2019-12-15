@@ -1,8 +1,13 @@
 #!/bin/bash
 set -e
 
+if [ "$#" -ne 1 ]; then
+    echo "pack.sh [release-version"
+    exit 2
+fi
+
 PACKAGE_NAME="lomo-web"
-VERSION=0.1.0
+VERSION=$1
 BUILD_NAME=$PACKAGE_NAME"_"$VERSION
 
 if [ -d $BUILD_NAME ]; then

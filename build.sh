@@ -1,14 +1,14 @@
 #!/bin/bash
 
-nowDate=$(date +"%Y_%m_%d")
-nowTime=$(date +"%H_%M_%S")
+nowDate=$(date +"%Y-%m-%d")
+nowTime=$(date +"%H-%M-%S")
 commitHash=$(git rev-parse --short HEAD)
 versionString="$nowDate.$nowTime.0.$commitHash"
 echo $versionString
 
 versionOld=$(grep "const LomoWebVersion" main.go)
 echo "old verion: $versionOld"
-sed -i.bak -E "s/[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}\.[[:digit:]]{2}_[[:digit:]]{2}_[[:digit:]]{2}\.0\.[a-zA-Z0-9]{7}/$versionString/g" main.go
+sed -i.bak -E "s/[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}\.[[:digit:]]{2}-[[:digit:]]{2}-[[:digit:]]{2}\.0\.[a-zA-Z0-9]{7}/$versionString/g" main.go
 versionNew=$(grep "const LomoWebVersion" main.go)
 echo "new verion: $versionNew"
 
@@ -20,9 +20,7 @@ if [ "$(uname)" == "Darwin" ]; then
     shasum -a256 lomoWebOSX.zip
 elif [ "$(uname)" == "Linux" ]; then
     go build -o lomo-web
-    #zip -r lomoWebLinux.zip lomo-web
-    sudo ./pack.sh
-    #shasum -a256 lomoWebLinux.zip
+    sudo ./pack.sh $versionString
 elif [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
     go build -o lomo-web
     zip -r lomoWebWin.zip lomo-web
