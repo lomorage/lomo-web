@@ -20,8 +20,9 @@ if [ "$(uname)" == "Darwin" ]; then
     shasum -a256 lomoWebOSX.zip
 elif [ "$(uname)" == "Linux" ]; then
     go build -o lomo-web
-    zip -r lomoWebLinux.zip lomo-web
-    shasum -a256 lomoWebLinux.zip
+    #zip -r lomoWebLinux.zip lomo-web
+    sudo ./pack.sh
+    #shasum -a256 lomoWebLinux.zip
 elif [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
     go build -o lomo-web
     zip -r lomoWebWin.zip lomo-web
