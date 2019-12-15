@@ -1073,7 +1073,7 @@
               options.url = options.url + "/" + sha1_hash.toString();
               options.url += "?" + "ext=" + file.name.split('.').pop().toLowerCase();
               var lastModified = file.lastModified || file.lastModifiedDate;
-              options.url += "&createtime=" +(new Date(lastModified)).toISOString();
+              options.url += "&modifiedtime=" +(new Date(lastModified)).toISOString();
               dfd.resolve()
               return
             }
