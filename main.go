@@ -17,7 +17,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2019-12-15.03-56-06.0.9aec5d5"
+const LomoWebVersion = "2019-12-14.20-06-10.0.04fa7e1"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {

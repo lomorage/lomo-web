@@ -107,7 +107,7 @@ if [ -z "$CONTENT" ]
 	exit
 fi
 
-RELEASE_VERSION=$(awk -F "\"" '/[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}\.[[:digit:]]{2}_[[:digit:]]{2}_[[:digit:]]{2}\.0\.[a-zA-Z0-9]{7}/{ print $2 }' main.go)
+RELEASE_VERSION=$(awk -F "\"" '/[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}\.[[:digit:]]{2}-[[:digit:]]{2}-[[:digit:]]{2}\.0\.[a-zA-Z0-9]{7}/{ print $2 }' main.go)
 CONTENT="$RELEASE_VERSION$CONTENT"
 echo "$CONTENT"
 
