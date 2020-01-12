@@ -55,13 +55,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+          <a class="navbar-brand" href="https://lomorage.com">Lomorage</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a href="#" id="logout"
-                >Logout</a
-              >
+              <a href="/gallery">Gallery</a>
+            </li>
+            <li>
+              <a href="#" id="logout">Logout</a>
             </li>
           </ul>
         </div>
@@ -200,7 +202,7 @@
                   {% if (window.innerWidth > 480 || !file.thumbnailUrl) { %}
                       <p class="name">
                           {% if (file.url) { %}
-                              <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                              <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}">{%=file.name%}</a>
                           {% } else { %}
                               <span>{%=file.name%}</span>
                           {% } %}

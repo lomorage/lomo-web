@@ -1,0 +1,8 @@
+img.lazy {
+    height: 75px; 
+    width: 75px;
+    object-fit: cover; 
+    /*
+    display: block;
+    */
+}

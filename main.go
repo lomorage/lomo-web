@@ -17,7 +17,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2019-12-14.20-14-05.0.d7d0b25"
+const LomoWebVersion = "2020-01-09.22-26-31.0.1371446"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -68,13 +68,20 @@ func ImportPageHandler(response http.ResponseWriter, request *http.Request) {
 	io.WriteString(response, body)
 }
 
+// GalleryPageHandler for GET
+func GalleryPageHandler(response http.ResponseWriter, request *http.Request) {
+	var body, _ = LoadFile("gallery.html")
+	io.WriteString(response, body)
+}
+
 // ConfJsTemplate conf.js template
 var ConfJsTemplate = `
 var CONFIG = {
     SERVICE_URL: '%v',
     LOGIN_URI: 'login',
     ASSERT_URI: 'asset',
-    PREVIEW_URI: 'preview',
+	PREVIEW_URI: 'preview',
+	CATEGORY_URI: 'category',
 
     getLoginUrl: function() {
         return CONFIG.SERVICE_URL + '/' + CONFIG.LOGIN_URI;
@@ -84,13 +91,21 @@ var CONFIG = {
         return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI;
     },
 
-    getAssetUrl: function(data) {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI + '/' + data.result.Name + "?token=" + sessionStorage.getItem("token");
+    getAssetUrl: function(name) {
+        return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI + '/' + name + "?token=" + sessionStorage.getItem("token");
     },
 
-    getPreviewUrl: function(data) {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.PREVIEW_URI + '/' + data.result.Name + "?token=" + sessionStorage.getItem("token");
-    }
+    getPreviewUrl: function(name) {
+        return CONFIG.SERVICE_URL + '/' + CONFIG.PREVIEW_URI + '/' + name + "?token=" + sessionStorage.getItem("token");
+	},
+
+	getMonthLevelMerkleTreeUrl: function() {
+		return CONFIG.SERVICE_URL + '/' + CONFIG.CATEGORY_URI;
+	},
+
+	getAssetLevelMerkleTreeUrl: function(year, month) {
+		return CONFIG.SERVICE_URL + '/' + CONFIG.CATEGORY_URI + '/' + year + '/' + month;
+	}
 }
 `
 
@@ -168,8 +183,9 @@ func bootService(ctx *cli.Context) error {
 	box := rice.MustFindBox("static")
 	staticFileServer := http.StripPrefix("/static/", http.FileServer(box.HTTPBox()))
 	router.PathPrefix("/static/").Handler(staticFileServer)
-	router.HandleFunc("/", LoginPageHandler)        // GET
-	router.HandleFunc("/import", ImportPageHandler) // GET
+	router.HandleFunc("/", LoginPageHandler)          // GET
+	router.HandleFunc("/import", ImportPageHandler)   // GET
+	router.HandleFunc("/gallery", GalleryPageHandler) // GET
 
 	log.Println("Server started. Press Ctrl-C to stop server")
 

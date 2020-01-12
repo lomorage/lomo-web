@@ -68,9 +68,9 @@ $(function() {
           name: data.result.Name,
           size: data.files[0].size,
           type: media_type,
-          url: CONFIG.getAssetUrl(data),
-          thumbnailUrl: CONFIG.getPreviewUrl(data),
-          deleteUrl: CONFIG.getAssetUrl(data),
+          url: CONFIG.getAssetUrl(data.result.Name),
+          thumbnailUrl: CONFIG.getPreviewUrl(data.result.Name),
+          deleteUrl: CONFIG.getAssetUrl(data.result.Name),
           deleteType: 'DELETE'
         }];
       }

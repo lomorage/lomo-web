@@ -29,7 +29,7 @@ function login(hashedPwd) {
         sessionStorage.setItem("userid", json.Userid);
         sessionStorage.setItem("token", json.Token);
         sessionStorage.setItem("username", $('#username').val());
-        document.location.href = '/import'
+        document.location.href = '/gallery'
     })
     .fail(function( xhr, status, errorThrown ) {
         alert( "Sorry, there was a problem!" );
