@@ -411,7 +411,7 @@
         var leftTime = (videoElems[0].duration - videoElems[0].currentTime)*1000;
         if (leftTime > 0) {
           time = leftTime
-          videoElems[0].play()
+          //videoElems[0].play()
         } else {
           time = 1
         }

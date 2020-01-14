@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    headers: {
-        "Authorization": "token=" + sessionStorage.getItem("token")
-    }
-});
-
 function fetchMonthLevelMerkleTree() {
     return $.ajax({
         url: CONFIG.getMonthLevelMerkleTreeUrl(),
@@ -26,14 +20,14 @@ function fetchAssetLevelMerkleTree() {
                 for (var j = 0; j < monthCnt; ++j) {
                     var monthRec = yearRec.Months[j];
                     var month = monthRec.Month;
-                    console.log('fetching assets for ' + year + '/' + month);
+                    //console.log('fetching assets for ' + year + '/' + month);
                     arrayOfPromises.push(
                         $.ajax({
                             url: CONFIG.getAssetLevelMerkleTreeUrl(year, month),
                             dataType: 'json'
                         }).then(
                             function (assetLevelTree) {
-                                console.log("fetchAsset record succeed!");
+                                //console.log("fetchAsset record succeed!");
                                 //console.log(assetLevelTree)
                                 var dayCnt = assetLevelTree.Days.length;
                                 for (var k = 0; k < dayCnt; ++k) {
@@ -41,7 +35,7 @@ function fetchAssetLevelMerkleTree() {
                                     var assetCnt = dayRec.Assets.length;
                                     for (var m = 0; m < assetCnt; ++m) {
                                         var assetRec = dayRec.Assets[m];
-                                        console.log("Name: " + assetRec.Name + ", Hash: " + assetRec.Hash);
+                                        //console.log("Name: " + assetRec.Name + ", Hash: " + assetRec.Hash);
                                         elem = '<a href="' + CONFIG.getAssetUrl(assetRec.Name)
                                             + '" title="' + assetRec.Name 
                                             + '" data-type="' + getMimeType(assetRec.Name) +'" data-gallery>'
@@ -50,6 +44,7 @@ function fetchAssetLevelMerkleTree() {
                                         $( "#links" ).append(elem);
                                     }
                                 }
+                                $('.lazy').lazy();
                             },
 
                             function( xhr, status, errorThrown ) {
@@ -67,7 +62,6 @@ function fetchAssetLevelMerkleTree() {
 
             $.when.apply($, arrayOfPromises).then(function() {
                 console.log("all done!");
-                $('.lazy').lazy();
             });
         },
 
@@ -106,6 +100,12 @@ function getMimeType(filename) {
 }
 
 $(function() {
+    $.ajaxSetup({
+        headers: {
+            "Authorization": "token=" + sessionStorage.getItem("token")
+        }
+    });
+
     if (sessionStorage.getItem("token") === null) {
         document.location.href = '/';
     }
@@ -119,13 +119,14 @@ $(function() {
     });
 
     fetchAssetLevelMerkleTree();
+
+    $('#blueimp-gallery').data('fullScreen', 'true');
+
+    $('#blueimp-gallery').on('slide', function(event, index, slide) {
+        // Gallery slide event handler
+        $('video').trigger('pause');
+        // console.log($("div.slide")[index]);
+        // console.log($("div.slide").eq(index).find('video').length);
+        $("div.slide").eq(index).find('video').trigger('play');
+    })
 });
-
-$('#blueimp-gallery').on('slide', function(event, index, slide) {
-    // Gallery slide event handler
-
-    $('video').trigger('pause');
-    // console.log($("div.slide")[index]);
-    // console.log($("div.slide").eq(index).find('video').length);
-    $("div.slide").eq(index).find('video').trigger('play');
-})
