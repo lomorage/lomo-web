@@ -120,3 +120,12 @@ $(function() {
 
     fetchAssetLevelMerkleTree();
 });
+
+$('#blueimp-gallery').on('slide', function(event, index, slide) {
+    // Gallery slide event handler
+
+    $('video').trigger('pause');
+    // console.log($("div.slide")[index]);
+    // console.log($("div.slide").eq(index).find('video').length);
+    $("div.slide").eq(index).find('video').trigger('play');
+})

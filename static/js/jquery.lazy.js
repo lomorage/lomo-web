@@ -538,7 +538,7 @@
                                // check if element is even in loadable area from right
                                (-threshold < elementBound.right);
 
-            console.log(elementBound);
+            //console.log(elementBound);
 
             if (direction === 'vertical') {
                 return vertical;
