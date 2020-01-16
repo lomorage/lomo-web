@@ -70,9 +70,9 @@ function calcBinaryen(method) {
         setStatus: log,
         wasmBinary: null,
         wasmJSMethod: method,
-        asmjsCodeFile: root + 'static/dist/argon2.js',
-        wasmBinaryFile: root + 'static/dist/argon2.wasm',
-        wasmTextFile: root + 'static/dist/argon2.wast',
+        asmjsCodeFile: root + 'static/argon2/argon2.js',
+        wasmBinaryFile: root + 'static/argon2/argon2.wasm',
+        wasmTextFile: root + 'static/argon2/argon2.wast',
         wasmMemory: wasmMemory,
         buffer: wasmMemory.buffer,
         TOTAL_MEMORY: initialMemory * WASM_PAGE_SIZE

@@ -17,7 +17,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-01-09.22-26-31.0.1371446"
+const LomoWebVersion = "2020-01-14.19-01-20.0.bca91d3"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -178,7 +178,7 @@ func bootService(ctx *cli.Context) error {
 	var router = mux.NewRouter()
 
 	// This will serve files under http://localhost:8000/static/<filename>
-	router.HandleFunc("/static/js/conf.js", ConfJsHandler)
+	router.HandleFunc("/static/lomo/js/conf.js", ConfJsHandler)
 
 	box := rice.MustFindBox("static")
 	staticFileServer := http.StripPrefix("/static/", http.FileServer(box.HTTPBox()))
