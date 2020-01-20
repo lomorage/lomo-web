@@ -7,7 +7,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <![endif]-->
     <meta charset="utf-8" />
-    <title>Assets Import</title>
+    <title>{{gettext "Assets Import"}}</title>
     <meta
       name="description"
       content="Import video and images to into Lomorage"
@@ -52,20 +52,20 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a href="/gallery">Gallery</a>
+              <a href="/gallery">{{gettext "Gallery"}}</a>
             </li>
             <li>
-              <a href="#" id="logout">Logout</a>
+              <a href="#" id="logout">{{gettext "Logout"}}</a>
             </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="container">
-      <h1>Import images and videos into Lomorage</h1>
+      <!-- <h1>Import images and videos into Lomorage</h1> -->
       <blockquote class="description">
         <p>
-          Drag and drop image and video files or directory to import them into Lomorage<br />
+          {{gettext "Drag and drop image and video files or directory to import them into Lomorage"}}<br />
         </p>
       </blockquote>
       <!-- The file upload form used as target for the file upload widget -->
@@ -81,7 +81,7 @@
             <!-- The fileinput-button span is used to style the file input field as button -->
             <span class="btn btn-success fileinput-button">
               <i class="glyphicon glyphicon-plus"></i>
-              <span>Add files...</span>
+              <span>{{gettext "Add files..."}}</span>
               <input type="file" name="files[]" multiple />
             </span>
             <!--
@@ -92,11 +92,11 @@
             -->
             <button type="reset" class="btn btn-warning cancel">
               <i class="glyphicon glyphicon-ban-circle"></i>
-              <span>Cancel upload</span>
+              <span>{{gettext "Cancel upload"}}</span>
             </button>
             <button type="button" class="btn btn-danger delete">
               <i class="glyphicon glyphicon-trash"></i>
-              <span>Delete selected</span>
+              <span>{{gettext "Delete selected"}}</span>
             </button>
             <input type="checkbox" class="toggle" />
             <!-- The global file processing state -->
@@ -153,26 +153,26 @@
                   <strong class="error text-danger"></strong>
               </td>
               <td>
-                  <p class="size">Processing...</p>
+                  <p class="size">{{gettext "Processing..."}}</p>
                   <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
               </td>
               <td>
                   {% if (!o.options.autoUpload && o.options.edit && o.options.loadImageFileTypes.test(file.type)) { %}
                     <button class="btn btn-success edit" data-index="{%=i%}" disabled>
                         <i class="glyphicon glyphicon-edit"></i>
-                        <span>Edit</span>
+                        <span>{{gettext "Edit"}}</span>
                     </button>
                   {% } %}
                   {% if (!i && !o.options.autoUpload) { %}
                       <button class="btn btn-primary start" disabled>
                           <i class="glyphicon glyphicon-upload"></i>
-                          <span>Start</span>
+                          <span>{{gettext "Start"}}</span>
                       </button>
                   {% } %}
                   {% if (!i) { %}
                       <button class="btn btn-warning cancel">
                           <i class="glyphicon glyphicon-ban-circle"></i>
-                          <span>Cancel</span>
+                          <span>{{gettext "Cancel"}}</span>
                       </button>
                   {% } %}
               </td>
@@ -201,7 +201,7 @@
                       </p>
                   {% } %}
                   {% if (file.error) { %}
-                      <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                      <div><span class="label label-danger">{{gettext "Error"}}</span> {%=file.error%}</div>
                   {% } %}
               </td>
               <td>
@@ -211,13 +211,13 @@
                   {% if (file.deleteUrl) { %}
                       <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
                           <i class="glyphicon glyphicon-trash"></i>
-                          <span>Delete</span>
+                          <span>{{gettext "Delete"}}</span>
                       </button>
                       <input type="checkbox" name="delete" value="1" class="toggle">
                   {% } else { %}
                       <button class="btn btn-warning cancel">
                           <i class="glyphicon glyphicon-ban-circle"></i>
-                          <span>Cancel</span>
+                          <span>{{gettext "Cancel"}}</span>
                       </button>
                   {% } %}
               </td>

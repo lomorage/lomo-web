@@ -7,23 +7,23 @@
         <link href="static/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="static/jquery/jquery.min.js"></script>
         <script src="static/bootstrap-4.3.1/js/bootstrap.min.js"></script>
-        <title>Login</title>
+        <title>{{gettext "Login"}}</title>
     </head>
     <body>
         <div id="login">
-            <h3 class="text-center text-white pt-5">Login form</h3>
+            <h3 class="text-center text-white pt-5">{{gettext "Login form"}}</h3>
             <div class="container">
                 <div id="login-row" class="row justify-content-center align-items-center">
                     <div id="login-column" class="col-md-6">
                         <div id="login-box" class="col-md-12">
                             <form id="login-form" class="form" action="" method="get">
-                                <h3 class="text-center text-info">Login</h3>
+                                <h3 class="text-center text-info">{{gettext "Login"}}</h3>
                                 <div class="form-group">
-                                    <label for="username" class="text-info">Username:</label><br>
+                                    <label for="username" class="text-info">{{gettext "Username"}}:</label><br>
                                     <input type="text" name="username" id="username" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="text-info">Password:</label><br>
+                                    <label for="password" class="text-info">{{gettext "Password"}}:</label><br>
                                     <input type="password" name="password" id="password" class="form-control">
                                 </div>
                                 <div class="form-group text-center">
@@ -31,7 +31,7 @@
                                     <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
                                     -->
                                     <input type="hidden" name="device" value="broswer" id="device" />
-                                    <input type="submit" name="submit" id="submit" class="btn btn-info btn-md" value="submit">
+                                    <input type="submit" name="submit" id="submit" class="btn btn-info btn-md" value="{{gettext "Submit"}}">
                                 </div>
                             </form>
                         </div>

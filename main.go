@@ -1,23 +1,28 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	snet "net"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	rice "github.com/GeertJohan/go.rice"
+	"github.com/chai2010/gettext-go/gettext"
 	"github.com/gorilla/mux"
 	"github.com/urfave/cli"
+	"golang.org/x/text/language"
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-01-15.21-58-04.0.cb4d26f"
+const LomoWebVersion = "2020-01-19.23-51-27.0.7d8a18c"
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -36,6 +41,20 @@ func ListIPs() ([]snet.IP, error) {
 	return ret, nil
 }
 
+func setup(locale string, domain string, dir string) {
+	gettext.SetLocale(locale)
+	gettext.Textdomain(domain)
+	gettext.BindTextdomain(domain, dir, nil)
+}
+
+func changeLocale(locale string) {
+	gettext.SetLocale(locale)
+}
+
+func translate(input string) string {
+	return gettext.PGettext("", input)
+}
+
 // LoadFile load html file
 func LoadFile(fileName string) (string, error) {
 	// find a rice.Box
@@ -51,25 +70,53 @@ func LoadFile(fileName string) (string, error) {
 		return "", err
 	}
 
-	return templateString, nil
+	funcMap := template.FuncMap{
+		"gettext": translate,
+	}
+	t, _ := template.New("foo").Funcs(funcMap).Parse(templateString)
+	var tpl bytes.Buffer
+	if err := t.Execute(&tpl, nil); err != nil {
+		return "", err
+	}
+
+	return tpl.String(), nil
+}
+
+// ChangePreferedLanguage change lang according to http header
+func ChangePreferedLanguage(r *http.Request) {
+	var matcher = language.NewMatcher([]language.Tag{
+		language.English, // The first language is used as fallback.
+		language.Chinese,
+	})
+
+	accept := r.Header.Get("Accept-Language")
+	tag, _ := language.MatchStrings(matcher, accept)
+	if strings.HasPrefix(tag.String(), "zh") {
+		changeLocale("zh_CN")
+	} else {
+		changeLocale("en_US")
+	}
 }
 
 // Handlers
 
 // LoginPageHandler for GET
 func LoginPageHandler(response http.ResponseWriter, request *http.Request) {
+	ChangePreferedLanguage(request)
 	var body, _ = LoadFile("login.html")
 	io.WriteString(response, body)
 }
 
 // ImportPageHandler for GET
 func ImportPageHandler(response http.ResponseWriter, request *http.Request) {
+	ChangePreferedLanguage(request)
 	var body, _ = LoadFile("import.html")
 	io.WriteString(response, body)
 }
 
 // GalleryPageHandler for GET
 func GalleryPageHandler(response http.ResponseWriter, request *http.Request) {
+	ChangePreferedLanguage(request)
 	var body, _ = LoadFile("gallery.html")
 	io.WriteString(response, body)
 }
@@ -124,8 +171,8 @@ func main() {
 	app.Version = LomoWebVersion
 	app.Usage = "Lomorage web app"
 
-	app.Authors = []*cli.Author{
-		&cli.Author{
+	app.Authors = []cli.Author{
+		cli.Author{
 			Name:  "Jeromy Fu",
 			Email: "fuji246@gmail.com",
 		},
@@ -174,6 +221,9 @@ func bootService(ctx *cli.Context) error {
 		return errors.New("invalid baseurl")
 	}
 	log.Printf("Lomorage Service lomod url: %s", BaseURL)
+
+	setup("zh_CN", "messages", "locale")
+	setup("en_US", "messages", "locale")
 
 	var router = mux.NewRouter()
 

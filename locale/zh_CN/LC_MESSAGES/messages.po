@@ -1,0 +1,59 @@
+msgid "Login"
+msgstr "登陆"
+
+msgid "Login form"
+msgstr "登陆表单"
+
+msgid "Username"
+msgstr "用户名"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "Gallery"
+msgstr "图库"
+
+msgid "Import"
+msgstr "导入"
+
+msgid "Logout"
+msgstr "退出"
+
+msgid "Lomorage Gallery"
+msgstr "Lomorage图库"
+
+msgid "Assets Import"
+msgstr "资源导入"
+
+msgid "Drag and drop image and video files or directory to import them into Lomorage"
+msgstr "要导入图片或视频到Lomorage，请将其拖拽到下面区域"
+
+msgid "Add files..."
+msgstr "添加文件..."
+
+msgid "Cancel upload"
+msgstr "取消上传"
+
+msgid "Delete selected"
+msgstr "删除选择"
+
+msgid "Processing..."
+msgstr "处理中..."
+
+msgid "Edit"
+msgstr "编辑"
+
+msgid "Start"
+msgstr "开始"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Error"
+msgstr "错误"
+
+msgid "Delete"
+msgstr "删除"
