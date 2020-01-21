@@ -18,7 +18,7 @@ $(function() {
     document.location.href = '/';
   }
 
-  $('a#logout').text("Logout " + sessionStorage.getItem("username"))
+  $('a#logout').text(polyglot.t("Logout") + sessionStorage.getItem("username"))
   $('a#logout').click(function() {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userid");

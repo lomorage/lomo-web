@@ -2,7 +2,7 @@
 set -e
 
 if [ "$#" -ne 1 ]; then
-    echo "pack.sh [release-version"
+    echo "pack.sh [release-version]"
     exit 2
 fi
 

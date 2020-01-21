@@ -32,7 +32,7 @@ function login(hashedPwd) {
         document.location.href = '/gallery'
     })
     .fail(function( xhr, status, errorThrown ) {
-        alert( "Sorry, there was a problem!" );
+        alert( polyglot.t("LoginError") );
         log( "Error: " + errorThrown );
         log( "Status: " + status );
         console.dir( xhr );
