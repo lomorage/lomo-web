@@ -48,7 +48,7 @@ function fetchAssetLevelMerkleTree() {
                             },
 
                             function( xhr, status, errorThrown ) {
-                                alert( "Sorry, there was a problem in fetchMonthLevelMerkleTree!" );
+                                alert( polyglot.t("FetchError") );
                                 console.log( "Error: " + errorThrown );
                                 console.log( "Status: " + status );
                                 console.dir( xhr );
@@ -66,7 +66,7 @@ function fetchAssetLevelMerkleTree() {
         },
 
         function( xhr, status, errorThrown ) {
-            alert( "Sorry, there was a problem in fetchMonthLevelMerkleTree!" );
+            alert( polyglot.t("FetchError") );
             console.log( "Error: " + errorThrown );
             console.log( "Status: " + status );
             console.dir( xhr );
@@ -110,7 +110,7 @@ $(function() {
         document.location.href = '/';
     }
 
-    $('a#logout').text("Logout " + sessionStorage.getItem("username"))
+    $('a#logout').text(polyglot.t("Logout") + sessionStorage.getItem("username"))
     $('a#logout').click(function() {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userid");
