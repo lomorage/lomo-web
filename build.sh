@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-msgfmt locale/en_US/LC_MESSAGES/messages.po -o locale/en_US/LC_MESSAGES/messages.mo
-msgfmt locale/zh_CN/LC_MESSAGES/messages.po -o locale/zh_CN/LC_MESSAGES/messages.mo
-
 nowDate=$(date +"%Y-%m-%d")
 nowTime=$(date +"%H-%M-%S")
 commitHash=$(git rev-parse --short HEAD)

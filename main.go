@@ -15,14 +15,272 @@ import (
 	"syscall"
 
 	rice "github.com/GeertJohan/go.rice"
-	"github.com/chai2010/gettext-go/gettext"
+	"github.com/chai2010/gettext-go"
 	"github.com/gorilla/mux"
 	"github.com/urfave/cli"
 	"golang.org/x/text/language"
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-01-20.16-17-08.0.c6ffbeb"
+const LomoWebVersion = "2020-04-15.21-22-45.0.adc2217"
+
+const i18nMessage = `{
+	"zh_CN": {
+		"LC_MESSAGES": {
+			"message.json": [
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Login",
+					"msgid_plural": "",
+					"msgstr"      : ["登陆"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Login form",
+					"msgid_plural": "",
+					"msgstr"      : ["登陆表单"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Username",
+					"msgid_plural": "",
+					"msgstr"      : ["用户名"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Password",
+					"msgid_plural": "",
+					"msgstr"      : ["密码"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Submit",
+					"msgid_plural": "",
+					"msgstr"      : ["提交"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Gallery",
+					"msgid_plural": "",
+					"msgstr"      : ["图库"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Import",
+					"msgid_plural": "",
+					"msgstr"      : ["导入"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Logout",
+					"msgid_plural": "",
+					"msgstr"      : ["退出"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Lomorage Gallery",
+					"msgid_plural": "",
+					"msgstr"      : ["Lomorage图库"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Assets Import",
+					"msgid_plural": "",
+					"msgstr"      : ["资源导入"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Drag and drop image and video files or directory to import them into Lomorage",
+					"msgid_plural": "",
+					"msgstr"      : ["要导入图片或视频到Lomorage，请将其拖拽到下面区域"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Add files...",
+					"msgid_plural": "",
+					"msgstr"      : ["添加文件..."]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Cancel upload",
+					"msgid_plural": "",
+					"msgstr"      : ["取消上传"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Delete selected",
+					"msgid_plural": "",
+					"msgstr"      : ["删除选择"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Processing...",
+					"msgid_plural": "",
+					"msgstr"      : ["处理中..."]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Edit",
+					"msgid_plural": "",
+					"msgstr"      : ["编辑"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Start",
+					"msgid_plural": "",
+					"msgstr"      : ["开始"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Cancel",
+					"msgid_plural": "",
+					"msgstr"      : ["取消"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Error",
+					"msgid_plural": "",
+					"msgstr"      : ["错误"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Delete",
+					"msgid_plural": "",
+					"msgstr"      : ["删除"]
+				}
+			]
+		}
+	},
+
+	"en_US": {
+		"LC_MESSAGES": {
+			"message.json": [
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Login",
+					"msgid_plural": "",
+					"msgstr"      : ["Login"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Login form",
+					"msgid_plural": "",
+					"msgstr"      : ["Login form"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Username",
+					"msgid_plural": "",
+					"msgstr"      : ["Username"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Password",
+					"msgid_plural": "",
+					"msgstr"      : ["Password"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Submit",
+					"msgid_plural": "",
+					"msgstr"      : ["Submit"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Gallery",
+					"msgid_plural": "",
+					"msgstr"      : ["Gallery"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Import",
+					"msgid_plural": "",
+					"msgstr"      : ["Import"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Logout",
+					"msgid_plural": "",
+					"msgstr"      : ["Logout"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Lomorage Gallery",
+					"msgid_plural": "",
+					"msgstr"      : ["Lomorage Gallery"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Assets Import",
+					"msgid_plural": "",
+					"msgstr"      : ["Assets Import"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Drag and drop image and video files or directory to import them into Lomorage",
+					"msgid_plural": "",
+					"msgstr"      : ["Drag and drop image and video files or directory to import them into Lomorage"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Add files...",
+					"msgid_plural": "",
+					"msgstr"      : ["Add files..."]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Cancel upload",
+					"msgid_plural": "",
+					"msgstr"      : ["Cancel upload"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Delete selected",
+					"msgid_plural": "",
+					"msgstr"      : ["Delete selected"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Processing...",
+					"msgid_plural": "",
+					"msgstr"      : ["Processing..."]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Edit",
+					"msgid_plural": "",
+					"msgstr"      : ["Edit"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Start",
+					"msgid_plural": "",
+					"msgstr"      : ["Start"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Cancel",
+					"msgid_plural": "",
+					"msgstr"      : ["Cancel"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Error",
+					"msgid_plural": "",
+					"msgstr"      : ["Error"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Delete",
+					"msgid_plural": "",
+					"msgstr"      : ["Delete"]
+				}
+			]
+		}
+	}
+}`
+
+var gText gettext.Gettexter
 
 // ListIPs list available ipv4 addresses
 func ListIPs() ([]snet.IP, error) {
@@ -41,18 +299,12 @@ func ListIPs() ([]snet.IP, error) {
 	return ret, nil
 }
 
-func setup(locale string, domain string, dir string) {
-	gettext.SetLocale(locale)
-	gettext.Textdomain(domain)
-	gettext.BindTextdomain(domain, dir, nil)
-}
-
 func changeLocale(locale string) {
-	gettext.SetLocale(locale)
+	gText.SetLanguage(locale)
 }
 
 func translate(input string) string {
-	return gettext.PGettext("", input)
+	return gText.PGettext("", input)
 }
 
 // LoadFile load html file
@@ -222,8 +474,7 @@ func bootService(ctx *cli.Context) error {
 	}
 	log.Printf("Lomorage Service lomod url: %s", BaseURL)
 
-	setup("zh_CN", "messages", "locale")
-	setup("en_US", "messages", "locale")
+	gText = gettext.New("message", "", i18nMessage).SetLanguage("en_US")
 
 	var router = mux.NewRouter()
 
