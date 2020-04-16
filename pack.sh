@@ -31,7 +31,7 @@ EOF
 cat << EOF > $BUILD_NAME/DEBIAN/preinst
 if [ -f "/lib/systemd/system/lomow.service" ]
 then
-  systemctl stop lomow
+  systemctl stop lomow || true
 fi
 EOF
 chmod +x $BUILD_NAME/DEBIAN/preinst
@@ -40,8 +40,8 @@ cat << EOF > $BUILD_NAME/DEBIAN/postinst
 #!/bin/bash
 chmod +x /opt/lomorage/bin/lomo-web
 systemctl enable lomow
-systemctl daemon-reload 
-systemctl restart lomow
+systemctl daemon-reload || true
+systemctl restart lomow || true
 EOF
 chmod +x $BUILD_NAME/DEBIAN/postinst
 
