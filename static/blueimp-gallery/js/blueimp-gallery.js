@@ -104,6 +104,8 @@
       titleProperty: 'title',
       // The list object property (or data attribute) with the object alt text:
       altTextProperty: 'alt',
+      // The list object property (or data attribute) with the object data-type:
+      dataTypeProperty: 'type',
       // The list object property (or data attribute) with the object URL:
       urlProperty: 'href',
       // The list object property (or data attribute) with the object srcset URL(s):
@@ -1023,6 +1025,7 @@
       var element
       var title
       var altText
+      var dataType
       /**
        * Wraps the callback function for the load/error event
        *
@@ -1055,6 +1058,7 @@
       if (typeof url !== 'string') {
         url = this.getItemProperty(obj, this.options.urlProperty)
         title = this.getItemProperty(obj, this.options.titleProperty)
+        dataType = this.getItemProperty(obj, this.options.dataTypeProperty)
         altText =
           this.getItemProperty(obj, this.options.altTextProperty) || title
       }
@@ -1078,7 +1082,26 @@
         element.alt = altText
       }
       $(img).on('load error', callbackWrapper)
-      img.src = url
+      if (dataType == "image/heic") {
+        fetch(url)
+        .then((res) => res.blob())
+        .then((blob) => heic2any({
+          blob,
+          toType: "image/jpeg",
+          quality: 0.3,
+          multiple: true
+        }))
+        .then((conversionResult) => {
+          conversionResult.forEach(image => {
+            img.src = URL.createObjectURL(image);
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      } else {
+        img.src = url
+      }
       return element
     },
 
