@@ -104,8 +104,6 @@
       titleProperty: 'title',
       // The list object property (or data attribute) with the object alt text:
       altTextProperty: 'alt',
-      // The list object property (or data attribute) with the object data-type:
-      dataTypeProperty: 'type',
       // The list object property (or data attribute) with the object URL:
       urlProperty: 'href',
       // The list object property (or data attribute) with the object srcset URL(s):
@@ -1058,7 +1056,7 @@
       if (typeof url !== 'string') {
         url = this.getItemProperty(obj, this.options.urlProperty)
         title = this.getItemProperty(obj, this.options.titleProperty)
-        dataType = this.getItemProperty(obj, this.options.dataTypeProperty)
+        dataType = this.getItemProperty(obj, this.options.typeProperty)
         altText =
           this.getItemProperty(obj, this.options.altTextProperty) || title
       }

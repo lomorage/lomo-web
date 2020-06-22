@@ -83,6 +83,7 @@ function getMimeType(filename) {
         'png': 'image/png',
         'heif': 'image/heif',
         'heic': 'image/heic',
+        'zip': 'livephoto/zip',
         '3gp': 'video/3gpp',
         '3g2': 'video/3gpp2',
         'mov': 'video/mp4',
