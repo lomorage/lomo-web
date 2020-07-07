@@ -22,7 +22,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-04-15.21-33-53.0.c68cd6a"
+const LomoWebVersion = "2020-06-21.16-50-32.0.0a33ed3"
 
 const i18nMessage = `{
 	"zh_CN": {
@@ -391,7 +391,7 @@ var CONFIG = {
     },
 
     getAssetUrl: function(name) {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI + '/' + name + "?token=" + sessionStorage.getItem("token");
+        return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI + '/' + name + "?token=" + sessionStorage.getItem("token") + "&orig=1";
     },
 
     getPreviewUrl: function(name) {
