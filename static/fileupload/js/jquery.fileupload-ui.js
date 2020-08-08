@@ -226,7 +226,7 @@
             if (data.errorThrown !== 'abort') {
               var file = data.files[index];
               file.error =
-                file.error || data.errorThrown || data.i18n('unknownError');
+                file.error || polyglot.t(data.errorThrown) || data.i18n('unknownError');
               deferred = that._addFinishedDeferreds();
               that._transition($(this)).done(function() {
                 var node = $(this);
