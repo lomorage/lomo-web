@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"html/template"
 	"io"
@@ -375,6 +374,14 @@ func GalleryPageHandler(response http.ResponseWriter, request *http.Request) {
 
 // ConfJsTemplate conf.js template
 var ConfJsTemplate = `
+
+let origin;
+if (!window.location.origin) {
+  origin = window.location.protocol + "//" + window.location.hostname;
+} else {
+	origin = window.location.origin;
+}
+
 var CONFIG = {
     SERVICE_URL: '%v',
     LOGIN_URI: 'login',
@@ -382,28 +389,36 @@ var CONFIG = {
 	PREVIEW_URI: 'preview',
 	CATEGORY_URI: 'category',
 
+	getServiceUrl: function() {
+		if (CONFIG.SERVICE_URL === "") {
+			return origin + ":8000";
+		} else {
+			return CONFIG.SERVICE_URL;
+		}
+	},
+
     getLoginUrl: function() {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.LOGIN_URI;
+        return CONFIG.getServiceUrl() + '/' + CONFIG.LOGIN_URI;
     },
 
     getUploadUrl: function() {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI;
+        return CONFIG.getServiceUrl() + '/' + CONFIG.ASSERT_URI;
     },
 
     getAssetUrl: function(name) {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.ASSERT_URI + '/' + name + "?token=" + sessionStorage.getItem("token") + "&orig=1";
+        return CONFIG.getServiceUrl() + '/' + CONFIG.ASSERT_URI + '/' + name + "?token=" + sessionStorage.getItem("token") + "&orig=1";
     },
 
     getPreviewUrl: function(name) {
-        return CONFIG.SERVICE_URL + '/' + CONFIG.PREVIEW_URI + '/' + name + "?token=" + sessionStorage.getItem("token");
+        return CONFIG.getServiceUrl() + '/' + CONFIG.PREVIEW_URI + '/' + name + "?token=" + sessionStorage.getItem("token");
 	},
 
 	getMonthLevelMerkleTreeUrl: function() {
-		return CONFIG.SERVICE_URL + '/' + CONFIG.CATEGORY_URI;
+		return CONFIG.getServiceUrl() + '/' + CONFIG.CATEGORY_URI;
 	},
 
 	getAssetLevelMerkleTreeUrl: function(year, month) {
-		return CONFIG.SERVICE_URL + '/' + CONFIG.CATEGORY_URI + '/' + year + '/' + month;
+		return CONFIG.getServiceUrl() + '/' + CONFIG.CATEGORY_URI + '/' + year + '/' + month;
 	}
 }
 `
@@ -437,12 +452,6 @@ func main() {
 		},
 
 		&cli.UintFlag{
-			Name:  "baseport",
-			Usage: "lomod listen port",
-			Value: 8000,
-		},
-
-		&cli.UintFlag{
 			Name:  "port",
 			Usage: "lomo-web listen port",
 			Value: 80,
@@ -459,19 +468,6 @@ func main() {
 func bootService(ctx *cli.Context) error {
 	BaseURL = ctx.String("baseurl")
 
-	if BaseURL == "" {
-		ipList, err := ListIPs()
-		if err != nil {
-			log.Printf("error while list ips: %v\n", err)
-		} else if len(ipList) > 0 {
-			log.Printf("ip[0]: %v\n", ipList[0])
-			BaseURL = fmt.Sprintf("http://%v:%v", ipList[0], ctx.String("baseport"))
-		}
-	}
-
-	if BaseURL == "" {
-		return errors.New("invalid baseurl")
-	}
 	log.Printf("Lomorage Service lomod url: %s", BaseURL)
 
 	gText = gettext.New("message", "", i18nMessage).SetLanguage("en_US")
