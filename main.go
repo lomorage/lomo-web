@@ -21,7 +21,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-06-21.16-50-32.0.0a33ed3"
+const LomoWebVersion = "2020-08-09.19-01-41.0.83a946c"
 
 const i18nMessage = `{
 	"zh_CN": {
@@ -375,13 +375,6 @@ func GalleryPageHandler(response http.ResponseWriter, request *http.Request) {
 // ConfJsTemplate conf.js template
 var ConfJsTemplate = `
 
-let origin;
-if (!window.location.origin) {
-  origin = window.location.protocol + "//" + window.location.hostname;
-} else {
-	origin = window.location.origin;
-}
-
 var CONFIG = {
     SERVICE_URL: '%v',
     LOGIN_URI: 'login',
@@ -391,7 +384,7 @@ var CONFIG = {
 
 	getServiceUrl: function() {
 		if (CONFIG.SERVICE_URL === "") {
-			return origin + ":8000";
+			return window.location.protocol + "//" + window.location.hostname + ":8000";
 		} else {
 			return CONFIG.SERVICE_URL;
 		}
