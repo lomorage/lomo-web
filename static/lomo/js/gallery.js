@@ -57,8 +57,6 @@ function fetchAssetLevelMerkleTree() {
                     );
                 }
             }
-       
-            var i = 0;
 
             $.when.apply($, arrayOfPromises).then(function() {
                 console.log("all done!");

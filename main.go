@@ -21,7 +21,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-08-09.19-01-41.0.83a946c"
+const LomoWebVersion = "2020-08-16.11-25-18.0.d75c683"
 
 const i18nMessage = `{
 	"zh_CN": {
@@ -62,6 +62,12 @@ const i18nMessage = `{
 					"msgid"       : "Gallery",
 					"msgid_plural": "",
 					"msgstr"      : ["图库"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Inbox",
+					"msgid_plural": "",
+					"msgstr"      : ["收件箱"]
 				},
 				{
 					"msgctxt"     : "",
@@ -189,6 +195,12 @@ const i18nMessage = `{
 					"msgid"       : "Gallery",
 					"msgid_plural": "",
 					"msgstr"      : ["Gallery"]
+				},
+				{
+					"msgctxt"     : "",
+					"msgid"       : "Inbox",
+					"msgid_plural": "",
+					"msgstr"      : ["Inbox"]
 				},
 				{
 					"msgctxt"     : "",
@@ -372,6 +384,13 @@ func GalleryPageHandler(response http.ResponseWriter, request *http.Request) {
 	io.WriteString(response, body)
 }
 
+// InboxPageHandler for GET
+func InboxPageHandler(response http.ResponseWriter, request *http.Request) {
+	ChangePreferedLanguage(request)
+	var body, _ = LoadFile("inbox.html")
+	io.WriteString(response, body)
+}
+
 // ConfJsTemplate conf.js template
 var ConfJsTemplate = `
 
@@ -381,6 +400,11 @@ var CONFIG = {
     ASSERT_URI: 'asset',
 	PREVIEW_URI: 'preview',
 	CATEGORY_URI: 'category',
+	RECEIVE_URI: 'receive',
+	RECEIVE_USER_URI: 'receive/user',
+	RECEIVE_GROUP_URI: 'receive/group',
+	RECEIVE_ASSERT_URI: 'receive/asset',
+	RECEIVE_PREVIEW_URI: 'receive/preview',
 
 	getServiceUrl: function() {
 		if (CONFIG.SERVICE_URL === "") {
@@ -412,6 +436,26 @@ var CONFIG = {
 
 	getAssetLevelMerkleTreeUrl: function(year, month) {
 		return CONFIG.getServiceUrl() + '/' + CONFIG.CATEGORY_URI + '/' + year + '/' + month;
+	},
+
+	getInboxUrl: function() {
+		return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_URI + "?token=" + sessionStorage.getItem("token");
+	},
+
+	getUserInboxUrl: function(uid) {
+		return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_USER_URI + '/' + uid + "?token=" + sessionStorage.getItem("token");
+	},
+
+	getGroupInboxUrl: function(gid) {
+		return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_GROUP_URI + '/' + gid + "?token=" + sessionStorage.getItem("token");
+	},
+
+	getInboxAssetUrl: function(shareid) {
+        return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_ASSERT_URI + '/' + shareid + "?token=" + sessionStorage.getItem("token") + "&orig=1";
+    },
+
+    getInboxPreviewUrl: function(shareid) {
+        return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_PREVIEW_URI + '/' + shareid + "?token=" + sessionStorage.getItem("token");
 	}
 }
 `
@@ -476,6 +520,7 @@ func bootService(ctx *cli.Context) error {
 	router.HandleFunc("/", LoginPageHandler)          // GET
 	router.HandleFunc("/import", ImportPageHandler)   // GET
 	router.HandleFunc("/gallery", GalleryPageHandler) // GET
+	router.HandleFunc("/inbox", InboxPageHandler)     // GET
 
 	log.Println("Server started. Press Ctrl-C to stop server")
 
