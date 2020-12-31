@@ -38,6 +38,8 @@ chmod +x $BUILD_NAME/DEBIAN/preinst
 
 cat << EOF > $BUILD_NAME/DEBIAN/postinst
 #!/bin/bash
+CUR_USER=${SUDO_USER:-$(logname)}
+sudo sed -i "s/User=pi/User=$CUR_USER/g" /lib/systemd/system/lomow.service
 chmod +x /opt/lomorage/bin/lomo-web
 systemctl enable lomow
 systemctl daemon-reload || true
@@ -51,5 +53,4 @@ cp lomow.service $BUILD_NAME/lib/systemd/system/
 mkdir -p $BUILD_NAME/opt/lomorage/bin
 cp lomo-web $BUILD_NAME/opt/lomorage/bin
 
-chown root:root -R $BUILD_NAME
 dpkg -b $BUILD_NAME

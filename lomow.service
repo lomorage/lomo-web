@@ -5,6 +5,7 @@ After=network.target
 [Service]
 Type=simple
 RemainAfterExit=yes
+User=pi
 ExecStart=/opt/lomorage/bin/lomo-web --port 8001
 StandardOutput=syslog
 StandardError=syslog
