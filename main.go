@@ -21,7 +21,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2020-08-16.11-25-18.0.d75c683"
+const LomoWebVersion = "2021-01-04.09-38-08.0.dc5bb82"
 
 const i18nMessage = `{
 	"zh_CN": {
