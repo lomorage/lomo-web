@@ -8,7 +8,8 @@ fi
 
 PACKAGE_NAME="lomo-web"
 VERSION=$1
-BUILD_NAME=$PACKAGE_NAME"_"$VERSION
+ARCH=$(dpkg --print-architecture)
+BUILD_NAME=$PACKAGE_NAME"_"$ARCH"_"$VERSION
 
 if [ -d $BUILD_NAME ]; then
     rm -rf $BUILD_NAME
@@ -22,7 +23,7 @@ Package: $PACKAGE_NAME
 Version: $VERSION
 Section: net
 Priority: optional
-Architecture: all
+Architecture: $ARCH
 Depends:
 Maintainer: Jeromy Fu<fuji246@gmail.com>
 Description: Lomorage Web App 
