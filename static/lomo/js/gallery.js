@@ -14,11 +14,11 @@ function fetchAssetLevelMerkleTree() {
             var arrayOfPromises = [];
             var yearCnt = monthLevelTree.Years.length;
             for (var i = 0; i < yearCnt; ++i) {
-                var yearRec = monthLevelTree.Years[i];
+                var yearRec = monthLevelTree.Years[yearCnt-i-1];
                 var year = yearRec.Year;
                 var monthCnt = yearRec.Months.length;
                 for (var j = 0; j < monthCnt; ++j) {
-                    var monthRec = yearRec.Months[j];
+                    var monthRec = yearRec.Months[monthCnt-j-1];
                     var month = monthRec.Month;
                     //console.log('fetching assets for ' + year + '/' + month);
                     arrayOfPromises.push(
@@ -31,7 +31,7 @@ function fetchAssetLevelMerkleTree() {
                                 //console.log(assetLevelTree)
                                 var dayCnt = assetLevelTree.Days.length;
                                 for (var k = 0; k < dayCnt; ++k) {
-                                    var dayRec = assetLevelTree.Days[k];
+                                    var dayRec = assetLevelTree.Days[dayCnt-k-1];
                                     var assetCnt = dayRec.Assets.length;
                                     for (var m = 0; m < assetCnt; ++m) {
                                         var assetRec = dayRec.Assets[m];
