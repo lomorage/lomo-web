@@ -35,13 +35,25 @@ function fetchAssetLevelMerkleTree() {
                                     var assetCnt = dayRec.Assets.length;
                                     for (var m = 0; m < assetCnt; ++m) {
                                         var assetRec = dayRec.Assets[m];
+                                        var mimeType = getMimeType(assetRec.Name);
+                                        var mediaType = mimeType.split('/')[0]
+                                        if (mediaType === "image") {
+                                            elem = '<a href="' + CONFIG.getAssetUrl(assetRec.Name)
+                                                + '" title="' + assetRec.Name
+                                                + '" data-type="' + getMimeType(assetRec.Name) +'" data-gallery>'
+                                                + '<div class="image-thumbnail"><img class="lazy" data-src="' + CONFIG.getPreviewUrl(assetRec.Name)
+                                                + '"/></div></a>';
+                                            $( "#links" ).append(elem);
+                                        } else {
+                                            elem = '<a href="' + CONFIG.getAssetUrl(assetRec.Name)
+                                                + '" title="' + assetRec.Name
+                                                + '" data-type="' + getMimeType(assetRec.Name) +'" data-gallery>'
+                                                + '<div class="video-thumbnail"><img class="lazy" data-src="' + CONFIG.getPreviewUrl(assetRec.Name)
+                                                + '"/></div></a>';
+                                            $( "#links" ).append(elem);
+                                        }
                                         //console.log("Name: " + assetRec.Name + ", Hash: " + assetRec.Hash);
-                                        elem = '<a href="' + CONFIG.getAssetUrl(assetRec.Name)
-                                            + '" title="' + assetRec.Name 
-                                            + '" data-type="' + getMimeType(assetRec.Name) +'" data-gallery>'
-                                            + '<img class="lazy" data-src="' + CONFIG.getPreviewUrl(assetRec.Name)
-                                            + '"/></a>';
-                                        $( "#links" ).append(elem);
+
                                     }
                                 }
                                 $('.lazy').lazy();
