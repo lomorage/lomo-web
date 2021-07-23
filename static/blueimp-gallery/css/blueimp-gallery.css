@@ -126,6 +126,7 @@
   right: 15px;
 }
 .blueimp-gallery > .close,
+.blueimp-gallery > .del,
 .blueimp-gallery > .title {
   position: absolute;
   top: 15px;
@@ -142,6 +143,15 @@
   padding: 15px;
   right: 15px;
   left: auto;
+  margin: -15px;
+  font-size: 30px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.blueimp-gallery > .del {
+  padding: 15px;
+  top: auto;
+  bottom: 15px;
   margin: -15px;
   font-size: 30px;
   text-decoration: none;
@@ -164,6 +174,7 @@
 .blueimp-gallery-controls > .prev,
 .blueimp-gallery-controls > .next,
 .blueimp-gallery-controls > .close,
+.blueimp-gallery-controls > .del,
 .blueimp-gallery-controls > .title,
 .blueimp-gallery-controls > .play-pause {
   display: block;
@@ -185,6 +196,7 @@
 .blueimp-gallery > .prev,
 .blueimp-gallery > .next,
 .blueimp-gallery > .close,
+.blueimp-gallery > .del,
 .blueimp-gallery > .play-pause {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -195,6 +207,7 @@
 .blueimp-gallery > .prev:hover,
 .blueimp-gallery > .next:hover,
 .blueimp-gallery > .close:hover,
+.blueimp-gallery > .del:hover,
 .blueimp-gallery > .title:hover,
 .blueimp-gallery > .play-pause:hover {
   color: #fff;

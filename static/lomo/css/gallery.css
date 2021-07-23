@@ -11,14 +11,14 @@ img.lazy {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 30px;
+    margin: 10px;
 }
 
 .video-thumbnail {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 30px;
+    margin: 10px;
 }
 
 .video-thumbnail:before {

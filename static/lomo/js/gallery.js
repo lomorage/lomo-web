@@ -131,7 +131,7 @@ $(function() {
 
     fetchAssetLevelMerkleTree();
 
-    $('#blueimp-gallery').data('fullScreen', 'true');
+    // $('#blueimp-gallery').data('fullScreen', 'true');
 
     $('#blueimp-gallery').on('slide', function(event, index, slide) {
         // Gallery slide event handler
@@ -139,5 +139,12 @@ $(function() {
         // console.log($("div.slide")[index]);
         // console.log($("div.slide").eq(index).find('video').length);
         $("div.slide").eq(index).find('video').trigger('play');
+    })
+
+    $('#blueimp-gallery').on('deleted', function(event, index) {
+        // Gallery deleted event handler
+        console.log($("div.links")[index]);
+        $("#links > a")[index].remove();
+        // console.log($("div.slide").eq(index).find('video').length);
     })
 });

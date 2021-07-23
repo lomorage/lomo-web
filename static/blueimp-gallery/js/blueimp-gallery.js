@@ -98,6 +98,8 @@
       closeClass: 'close',
       // The class for the "play-pause" toggle control:
       playPauseClass: 'play-pause',
+      // The class for the "delete" toggle control:
+      deleteClass: 'del',
       // The list object property (or data attribute) with the object type:
       typeProperty: 'type',
       // The list object property (or data attribute) with the object title:
@@ -176,6 +178,9 @@
       // and the initialization transition has been completed.
       // Is called with the gallery instance as "this" object:
       onopened: undefined,
+      // Callback function executed when the item has been deleted
+      // current index as arguments
+      ondeleted: undefined,
       // Callback function executed on slide change.
       // Is called with the gallery instance as "this" object and the
       // current index and slide as arguments:
@@ -398,6 +403,77 @@
       if (this.options.continuous || this.index < this.num - 1) {
         this.slide(this.index + 1)
       }
+    },
+
+    delete: function() {
+        var that = this
+        var assetUrl = this.getItemProperty(this.list[this.index], this.options.urlProperty)
+        jQuery.confirm({
+          title: polyglot.t("DeleteConfirm"),
+          content: '',
+          type: 'green',
+          buttons: {
+              ok: {
+                  text: polyglot.t("OK"),
+                  btnClass: 'btn-primary',
+                  keys: ['enter'],
+                  action: function(){
+                      console.log('the user clicked confirm');
+                      jQuery.ajax({
+                        url: assetUrl,
+                        type: 'DELETE'
+                      })
+                      .done(function (json) {
+                          console.log( "delete success: " + assetUrl)
+                          var removeIdx = that.index
+                          if (that.options.continuous || removeIdx < that.num - 1) {
+                            that.slide(removeIdx + 1)
+                          }
+                          // adjust elements
+                          var i
+                          for (i in that.elements) {
+                            if (i == removeIdx) {
+                              that.unloadSlide(removeIdx)
+                              delete that.elements[removeIdx]
+                            } else if (i > removeIdx) {
+                              that.elements[i-1] = that.elements[i]
+                              delete that.elements[i]
+                            }
+                          }
+                          // jQuery("div.slide")[removeIdx].remove()
+                          that.slides.splice(removeIdx, 1)
+                          for (i = 0; i < that.slides.length; ++i) {
+                            var curIdx = that.slides[i].getAttribute('data-index')
+                            if (curIdx > removeIdx) {
+                              that.slides[i].setAttribute('data-index', curIdx-1)
+                            }
+                          }
+                          that.list.splice(removeIdx, 1)
+                          that.num -= 1
+                          if (that.options.ondeleted) {
+                            that.options.ondeleted(removeIdx)
+                          }
+                          if (that.num == 0) {
+                              that.close()
+                          }
+                      })
+                      .fail(function( xhr, status, errorThrown ) {
+                          alert( polyglot.t("DeleteFail") )
+                          console.log( "delete failure: " + assetUrl)
+                          console.log( "Error: " + errorThrown )
+                          console.log( "Status: " + status )
+                          console.dir( xhr )
+                      });
+                  }
+              },
+              cancel: {
+                  text: polyglot.t("Cancel"),
+                  action: function(){
+                      console.log('the user clicked cancel');
+                  }
+              }
+          }
+        });
     },
 
     play: function(time) {
@@ -929,6 +1005,10 @@
         // Click on "play-pause" control
         this.preventDefault(event)
         this.toggleSlideshow()
+      } else if (isTarget(options.deleteClass)) {
+        // Click on "delete" control
+        this.preventDefault(event)
+        this.delete()
       } else if (parent === this.slidesContainer[0]) {
         // Click on slide background
         if (options.closeOnSlideClick) {

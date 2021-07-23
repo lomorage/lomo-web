@@ -39,6 +39,9 @@
       onslide: function() {
         container.trigger('slide', arguments)
       },
+      ondeleted: function() {
+        container.trigger('deleted', arguments)
+      },
       onslideend: function() {
         container.trigger('slideend', arguments)
       },
