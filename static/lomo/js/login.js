@@ -15,28 +15,37 @@ function loadScript(src, onload, onerror) {
 }
 
 function login(hashedPwd) {
-    var auth = btoa($('#username').val() + ":" + hashedPwd + ":web")
-    $.ajaxSetup({
-        headers: {
-            "Authorization": "Basic " + auth
-        }
-    });
-    $.ajax({
-        url: CONFIG.getLoginUrl()
+    const fpPromise = FingerprintJS.load()
+
+    fpPromise.then(fp => fp.get())
+        .then(result => {
+        // This is the visitor identifier:
+        const visitorId = result.visitorId
+        console.log(visitorId)
+
+        var auth = btoa($('#username').val() + ":" + hashedPwd + ":web" + visitorId)
+        $.ajaxSetup({
+            headers: {
+                "Authorization": "Basic " + auth
+            }
+        });
+        $.ajax({
+            url: CONFIG.getLoginUrl()
+        })
+        .done(function (json) {
+            log( "Login succeed! save token " + json.Token);
+            sessionStorage.setItem("userid", json.Userid);
+            sessionStorage.setItem("token", json.Token);
+            sessionStorage.setItem("username", $('#username').val());
+            document.location.href = '/gallery'
+        })
+        .fail(function( xhr, status, errorThrown ) {
+            alert( polyglot.t("LoginError") );
+            log( "Error: " + errorThrown );
+            log( "Status: " + status );
+            console.dir( xhr );
+        });
     })
-    .done(function (json) {
-        log( "Login succeed! save token " + json.Token);
-        sessionStorage.setItem("userid", json.Userid);
-        sessionStorage.setItem("token", json.Token);
-        sessionStorage.setItem("username", $('#username').val());
-        document.location.href = '/gallery'
-    })
-    .fail(function( xhr, status, errorThrown ) {
-        alert( polyglot.t("LoginError") );
-        log( "Error: " + errorThrown );
-        log( "Status: " + status );
-        console.dir( xhr );
-    });
 }
 
 function getArg() {
