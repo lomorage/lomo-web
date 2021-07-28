@@ -1,6 +1,6 @@
 img.lazy {
-    height: 200px;
-    width: 200px;
+    height: 100px;
+    width: 100px;
     object-fit: cover;
     /*
     display: block;
@@ -11,14 +11,14 @@ img.lazy {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 10px;
+    margin: 3px;
 }
 
 .video-thumbnail {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    margin: 10px;
+    margin: 3px;
 }
 
 .video-thumbnail:before {
@@ -29,10 +29,10 @@ img.lazy {
     -webkit-transform: translate(-50%, -50%);
     content: "\f01d";
     font-family: FontAwesome;
-    font-size: 100px;
+    font-size: 25px;
     color: #fff;
     opacity: .8;
-    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+    text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
 }
 
 .video-thumbnail:hover:before {

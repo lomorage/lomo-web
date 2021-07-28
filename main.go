@@ -427,7 +427,7 @@ var CONFIG = {
     },
 
     getPreviewUrl: function(name) {
-        return CONFIG.getServiceUrl() + '/' + CONFIG.PREVIEW_URI + '/' + name + "?width=320&height=-1&token=" + sessionStorage.getItem("token");
+        return CONFIG.getServiceUrl() + '/' + CONFIG.PREVIEW_URI + '/' + name + "?width=200&height=-1&token=" + sessionStorage.getItem("token");
 	},
 
 	getMonthLevelMerkleTreeUrl: function() {
@@ -455,7 +455,7 @@ var CONFIG = {
     },
 
     getInboxPreviewUrl: function(shareid) {
-        return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_PREVIEW_URI + '/' + shareid + "?width=320&height=-1&token=" + sessionStorage.getItem("token");
+        return CONFIG.getServiceUrl() + '/' + CONFIG.RECEIVE_PREVIEW_URI + '/' + shareid + "?width=200&height=-1&token=" + sessionStorage.getItem("token");
 	}
 }
 `
