@@ -91,6 +91,8 @@ function getMimeType(filename) {
         'jpg': 'image/jpeg',
         'jpeg': 'image/jpeg',
         'png': 'image/png',
+        'webp': 'image/webp',
+        'dng': 'image/DNG',
         'heif': 'image/heif',
         'heic': 'image/heic',
         'zip': 'livephoto/zip',
