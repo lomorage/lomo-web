@@ -21,7 +21,7 @@ import (
 )
 
 // LomoWebVersion version auto generated
-const LomoWebVersion = "2021-01-12.12-26-42.0.2a6fc48"
+const LomoWebVersion = "2023-02-18.20-45-16.0.0a9d970"
 
 const i18nMessage = `{
 	"zh_CN": {
@@ -427,7 +427,7 @@ var CONFIG = {
     },
 
     getPreviewUrl: function(name) {
-        return CONFIG.getServiceUrl() + '/' + CONFIG.PREVIEW_URI + '/' + name + "?width=200&height=-1&token=" + sessionStorage.getItem("token");
+        return CONFIG.getServiceUrl() + '/' + CONFIG.PREVIEW_URI + '/' + name + "?width=320&height=-1&token=" + sessionStorage.getItem("token");
 	},
 
 	getMonthLevelMerkleTreeUrl: function() {
